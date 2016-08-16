@@ -7,8 +7,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include <iostream>
-
 Status readline(const std::string &prompt, std::string &line)
 {
 	Status status;
