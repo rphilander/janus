@@ -2,8 +2,9 @@
 
 #include <string>
 
-#include "errors.hpp"
+#include "status.hpp"
 
-bool readline(const std::string &prompt, std::string &line);
+// Returns EOI when input is exhausted.
+Status readline(const std::string &prompt, std::string &line);
 
-Error get_token(std::string &token, std::string &source);
+Status get_token(std::string &token, std::string &source);

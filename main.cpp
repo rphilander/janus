@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "stringutils.hpp"
-#include "errors.hpp"
+#include "status.hpp"
 
 void print_help()
 {
@@ -17,13 +17,13 @@ int main(int argc, char *argv[])
 	std::string line;
 	while (not stop and readline("janus> ", line))
 	{
-		Error error = false;
+		Status status;
 		std::string command;
-		error = get_token(command, line);
+		status = get_token(command, line);
 
-		if (error)
+		if (not status)
 		{
-			std::cerr << "error getting token" << std::endl;
+			std::cerr << "error getting token: " << status.get_message() << std::endl;
 		}
 		else
 		{

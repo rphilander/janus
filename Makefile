@@ -1,19 +1,19 @@
 # Makefile
 
-INCLUDES = /usr/local/Cellar/readline/6.3.8/include/
-LIBS = /usr/local/Cellar/readline/6.3.8/lib/
+INCLUDES = -I /usr/local/Cellar/readline/6.3.8/include/
+LIBS = -L /usr/local/Cellar/readline/6.3.8/lib/
 CC = clang++
-CFLAGS  = -g -Wall -I $(INCLUDES)
+CFLAGS  = -g -std=c++11 -Wall -Wno-c++11-extensions $(INCLUDES)
 
-OBJS = main.o stringutils.o
+OBJS = main.o stringutils.o status.o
 
-default: main
+default: janus
 
-main: $(OBJS)
-	$(CC) $(CFLAGS) -L $(LIBS) -o main $^ -lreadline
+janus: $(OBJS)
+	$(CC) $(CFLAGS) $(LIBS) -o janus $^ -lreadline
 
 %.o : %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) main
+	rm -f $(OBJS) janus

@@ -7,9 +7,11 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-bool readline(const std::string &prompt, std::string &line)
+#include <iostream>
+
+Status readline(const std::string &prompt, std::string &line)
 {
-	bool done = false;
+	Status status;
 	char *c_line = readline(prompt.c_str());
 	if (c_line)
 	{
@@ -18,12 +20,12 @@ bool readline(const std::string &prompt, std::string &line)
 	}
 	else
 	{
-		done = true;
+		status.set_code(Status::Code::END_OF_INPUT);
 	}
-	return not done;
+	return status;
 }
 
-Error get_token(std::string &token, std::string &source)
+Status get_token(std::string &token, std::string &source)
 {
 	std::string::iterator begin = source.begin();
 
@@ -46,15 +48,16 @@ Error get_token(std::string &token, std::string &source)
 		++end;
 	}
 
-	Error error = false;
+	Status status;
 	if (end == source.end() and look_for != ' ')
 	{
 		// we ran out of input before the quoted string finished --
 		// an error.
-		error = true;
+		status.set_code(Status::Code::BAD_INPUT);
+		status.set_message("unfinished quoted string");
 	}
 
-	if (not error)
+	if (status)
 	{
 		token.assign(begin, end);
 		if (look_for == ' ')
@@ -67,9 +70,11 @@ Error get_token(std::string &token, std::string &source)
 			++end;
 		}
 		source.assign(end, source.end());
+		if (source.end() == end)
+		{
+			status.set_code(Status::Code::END_OF_INPUT);
+		}
 	}
 
-	return error;
+	return status;
 }
-
-
