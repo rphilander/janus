@@ -21,6 +21,7 @@ public:
 	std::string get_message() const;
 	void set_message(const std::string &);
 	operator bool() const;
+	bool eoi() const;
 private:
 	Code m_code;
 	std::string m_message;

@@ -51,3 +51,8 @@ Status::operator bool() const
 {
 	return Code::OK == m_code;
 }
+
+bool Status::eoi() const
+{
+	return Code::END_OF_INPUT == m_code;
+}
